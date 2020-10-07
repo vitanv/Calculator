@@ -1,0 +1,51 @@
+body{
+  background: #ffff00; 
+}
+
+.App{
+  display:grid;
+  align-content:center;
+  justify-content:center;
+  height:100vh;
+}
+
+.container{
+   display:grid;
+   align-content:center;
+   justify-content:center;
+   height:100vh;
+   grid-template-rows:auto auto repeat(5,70px);
+   grid-template-columns:repeat(4,85px);
+   height:100%;
+   width:90%;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.container > .btn {
+  background:#ffffff;
+  border:1px solid #999999;
+}
+
+#equals,#clear{
+  grid-column: span 2;
+}
+
+.display{
+  background:#000000;
+  font-size:2rem;
+  color:#ffbf00;
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-content: flex-end;
+}
+
+#formula{
+  font-size:1.5rem;
+}
