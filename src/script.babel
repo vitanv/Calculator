@@ -4,22 +4,45 @@ class App extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      display:0,
-      formula:0,
+      display:'0',
+      formula:'0',
     }
   };
   clickNumber = (value) =>{
-    let val = 10*this.state.display+Number(value);
-    console.log(val);
+    console.log(this.state.display.length);
+    let val='';
+    if(this.state.display.length>18){
+      let storeNumber = this.state.display;
+      this.setState({
+      display:"MAX DIGITS",
+    });
+      setTimeout(() => {  this.setState({
+      display:storeNumber,
+    }); }, 1000);
+    }else{
+    if(this.state.display === '0'){
+      val = value;
+      
+    }else{
+      val = this.state.display+value;
+    }
     this.setState({
       display:val,
-    });
+    })};
   };
   clickAC = () => {
     this.setState({ 
       display: 0,
-      formula:0,
+      formula: 0,
     });
+  };
+  clickCE = () => {
+    this.setState({ 
+      display: 0,
+    });
+  };
+  clickOperator = () => {
+    
   };
   render(){
     return(

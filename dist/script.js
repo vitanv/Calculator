@@ -9,18 +9,41 @@ class App extends React.Component {
 
 
     value => {
-      let val = 10 * this.state.display + Number(value);
-      console.log(val);
-      this.setState({
-        display: val });
+      console.log(this.state.display.length);
+      let val = '';
+      if (this.state.display.length > 18) {
+        let storeNumber = this.state.display;
+        this.setState({
+          display: "MAX DIGITS" });
 
+        setTimeout(() => {this.setState({
+            display: storeNumber });
+        }, 1000);
+      } else {
+        if (this.state.display === '0') {
+          val = value;
+
+        } else {
+          val = this.state.display + value;
+        }
+        this.setState({
+          display: val });
+      };
     });_defineProperty(this, "clickAC",
     () => {
       this.setState({
         display: 0,
         formula: 0 });
 
-    });this.state = { display: 0, formula: 0 };}
+    });_defineProperty(this, "clickCE",
+    () => {
+      this.setState({
+        display: 0 });
+
+    });_defineProperty(this, "clickOperator",
+    () => {
+
+    });this.state = { display: '0', formula: '0' };}
   render() {
     return (
       React.createElement("div", { className: "App" },
