@@ -1,49 +1,80 @@
-
-
 class App extends React.Component{
   constructor(props){
     super(props)
     this.state = {
       display:'0',
       formula:'0',
+      solved:false,
     }
   };
   clickNumber = (value) =>{
-    console.log(this.state.display.length);
-    let val='';
-    if(this.state.display.length>18){
-      let storeNumber = this.state.display;
+    if(!this.state.solved){
+      let val='';
+      if(this.state.display.length>18){
+        let storeNumber = this.state.display;
+        this.setState({
+        display:"MAX DIGITS",
+        });
+        setTimeout(() => { 
+          this.setState({
+            display:storeNumber,}); 
+        }, 1000);
+        }else{
+          if(this.state.display == '0'){
+            val = value;
+          }else{
+            val = this.state.display+value;
+          }
+          this.setState({
+            display:val,
+          });}
+    }else{
       this.setState({
-      display:"MAX DIGITS",
-    });
-      setTimeout(() => {  this.setState({
-      display:storeNumber,
-    }); }, 1000);
-    }else{
-    if(this.state.display === '0'){
-      val = value;
-      
-    }else{
-      val = this.state.display+value;
+        display:value,
+        formula:"0",
+        solved:false,
+      })
     }
-    this.setState({
-      display:val,
-    })};
   };
   clickAC = () => {
     this.setState({ 
-      display: 0,
-      formula: 0,
+      display: "0",
+      formula: "0",
+      solved:false,
     });
   };
   clickCE = () => {
     this.setState({ 
-      display: 0,
+      display: "0",
     });
   };
-  clickOperator = () => {
+  clickOperator = (value) => {
+    if(!this.state.solved){
+      if(this.state.formula == "0"){
+      this.setState({
+        formula: this.state.display + value,
+        display:'0',
+      });
+      
+    }else{
+      this.setState({
+        formula: this.state.formula+this.state.display + value,
+        display:'0',
+      });
+    }; 
+    }
     
   };
+  clickEqual = () =>{
+    if(!this.state.solved){
+      console.log(eval(this.state.formula+this.state.display));
+      this.setState({
+      formula:this.state.formula+this.state.display,
+      display:eval(this.state.formula+this.state.display),
+      solved:true,
+    }); 
+    };   
+  }
   render(){
     return(
       <div className="App">
@@ -52,7 +83,7 @@ class App extends React.Component{
           <div className="display"  id="display">{this.state.display}</div>
             <button className='btn' id="clear" onClick={this.clickAC}>AC</button>
             <button className='btn' id="delete">CE</button>
-            <button className='btn' id="multiply">x</button>
+            <button className='btn' id="multiply" value="*">x</button>
             <button className='btn' id="seven" value="7" onClick = {(e)=>this.clickNumber(e.target.value)}>7</button>
             <button className='btn'id="eight" value="8" onClick = {(e)=>this.clickNumber(e.target.value)}>8</button>
             <button className='btn' id="nine" value="9" onClick = {(e)=>this.clickNumber(e.target.value)}>9</button>
@@ -60,14 +91,14 @@ class App extends React.Component{
             <button className='btn' id="four" value="4" onClick = {(e)=>this.clickNumber(e.target.value)}>4</button>
             <button className='btn' id="five" value='5' onClick = {(e)=>this.clickNumber(e.target.value)}>5</button>
             <button className='btn'id="six" value="6" onClick = {(e)=>this.clickNumber(e.target.value)}>6</button>
-            <button className='btn' id="add" value="+">+</button>
+            <button className='btn' id="add" value="+" onClick = {(e)=>this.clickOperator(e.target.value)}>+</button>
             <button className='btn' id="one" value="1" onClick = {(e)=>this.clickNumber(e.target.value)}>1</button>
             <button className='btn' id="two" value="2" onClick = {(e)=>this.clickNumber(e.target.value)}>2</button>
             <button className='btn'id="three" value="3" onClick = {(e)=>this.clickNumber(e.target.value)}>3</button>
             <button className='btn' id="divide" value="/">/</button>
             <button className='btn' id="zero" value="0" onClick = {(e)=>this.clickNumber(e.target.value)}>0</button>
             <button className='btn' id="decimal" value=".">.</button>
-            <button className='btn' id="equals" value="=">=</button>
+            <button className='btn' id="equals" value="=" onClick={this.clickEqual}>=</button>
         </div>
        </div>
       
