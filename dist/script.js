@@ -12,6 +12,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var operators = ["+", "-", "*", "/"];
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
@@ -63,13 +64,31 @@ var App = /** @class */ (function (_super) {
             });
         };
         _this.clickOperator = function (value) {
+            console.log(!operators.includes(_this.state.formula.slice(-1)));
+            if (_this.state.display == "0" && value == "-" && _this.state.formula == "0") {
+                _this.setState({
+                    display: '-',
+                });
+            }
+            console.log(_this.state.formula.slice(-1));
+            if (operators.includes(_this.state.formula.slice(-1)) && value != "-") {
+                //console.log(this.state.formula.slice(0,-1));
+                _this.setState({
+                    formula: _this.state.formula.replace(/\W+$/, "") + value,
+                });
+            }
+            else if (operators.includes(_this.state.formula.slice(-1)) && value == "-") {
+                _this.setState({
+                    formula: _this.state.formula + value,
+                });
+            }
             if (!_this.state.solved && _this.state.display != "0") {
                 if (_this.state.formula == "0") {
                     _this.setState({
                         formula: _this.state.display + value,
                         display: '0',
                     });
-                    console.log(_this.state.formula);
+                    //console.log(this.state.formula);
                 }
                 else {
                     _this.setState({
@@ -86,11 +105,6 @@ var App = /** @class */ (function (_super) {
                     solved: false,
                 });
             }
-            else if (!_this.state.solved && value == "-") {
-                _this.setState({
-                    display: '-',
-                });
-            }
         };
         _this.clickEqual = function () {
             if (!_this.state.solved) {
@@ -101,7 +115,6 @@ var App = /** @class */ (function (_super) {
                 else {
                     val = _this.state.formula.splice(0, -1);
                 }
-                console.log(eval(_this.state.formula + _this.state.display));
                 var solution = eval(_this.state.formula + _this.state.display);
                 _this.setState({
                     formula: val,
@@ -112,7 +125,6 @@ var App = /** @class */ (function (_super) {
             ;
         };
         _this.clickDecimal = function () {
-            console.log(_this.state.display.indexOf("."));
             if (_this.state.display.indexOf(".") < 0) {
                 _this.setState({
                     display: _this.state.display + ".",

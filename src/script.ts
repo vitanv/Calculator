@@ -1,3 +1,5 @@
+const operators = ["+","-","*","/"];
+
 class App extends React.Component{
   constructor(props){
     super(props)
@@ -7,6 +9,7 @@ class App extends React.Component{
       solved:false,
     }
   };
+
   clickNumber = (value) =>{
     if(!this.state.solved){
       let val='';
@@ -48,14 +51,34 @@ class App extends React.Component{
       display: "0",
     });
   };
-  clickOperator = (value) => {
+  clickOperator = (value) => { 
+    console.log(!operators.includes(this.state.formula.slice(-1)))
+    if(this.state.display == "0" &&  value=="-" && this.state.formula =="0"){
+        this.setState({
+          display:'-',
+        });
+      }
+    console.log(this.state.formula.slice(-1));
+    if(operators.includes(this.state.formula.slice(-1)) && value !="-" ){
+      //console.log(this.state.formula.slice(0,-1));
+      this.setState({
+        formula:this.state.formula.replace(/\W+$/,"") + value,
+      });
+    }else if(operators.includes(this.state.formula.slice(-1)) && value =="-") {
+      this.setState({
+        formula:this.state.formula + value,
+      });
+    }
+ 
     if(!this.state.solved && this.state.display != "0"){
+      
+      
       if(this.state.formula == "0"){
       this.setState({
         formula: this.state.display + value,
         display:'0',
       });
-      console.log(this.state.formula);
+      //console.log(this.state.formula);
     }else{
       this.setState({
         formula: this.state.formula+this.state.display + value,
@@ -68,12 +91,7 @@ class App extends React.Component{
         display:'0',
         solved:false,
       });
-    }else if(!this.state.solved && value=="-"){
-      this.setState({
-        display:'-',
-      });
     }
-    
   };
   clickEqual = () =>{
     if(!this.state.solved){
@@ -83,7 +101,6 @@ class App extends React.Component{
       }else{
         val = this.state.formula.splice(0,-1);
       }
-      console.log(eval(this.state.formula+this.state.display));
       let solution =  eval(this.state.formula+this.state.display);
       this.setState({
         formula:val,
@@ -93,7 +110,6 @@ class App extends React.Component{
     };   
   }
   clickDecimal = () =>{
-    console.log(this.state.display.indexOf("."));
     if(this.state.display.indexOf(".")<0){
       this.setState({
         display:this.state.display+".",
